@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Adelina Zivanna | Portfolio Laut</title>
+  <meta name="description" content="Portfolio Adelina Zivanna – Web Developer & UI/UX Designer. Karya, skill, dan kontak (Instagram, WhatsApp, GitHub)." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+    :root {
+      --primary: #006994;
+      --secondary: #00a8ff;
+      --accent: #ff6b6b;
+      --dark: #003153;
+      --light: #f0f8ff;
+      --muted: #c9e6ff;
+      --transition: all .3s ease;
+      --radius: 16px;
+      --glass: rgba(255,255,255,.06);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Poppins', sans-serif; color: #fff; background: linear-gradient(180deg, var(--dark) 0%, var(--primary) 100%); min-height: 100vh; overflow-x: hidden; }
+    img { display: block; max-width: 100%; height: auto; }
+
+    /* Ocean background */
+    .ocean { position: fixed; inset: auto 0 0 0; height: 28vh; background: var(--secondary); opacity: .28; z-index: -2; animation: swell 10s ease-in-out infinite; }
+    .wave { position: absolute; top: -100px; left: 0; width: 200%; height: 100px; background-size: 1000px 100px; }
+    .wave1 { background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z" fill="%2300a8ff"/></svg>'); animation: wave 15s linear infinite; opacity: .5; }
+    .wave2 { background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z" fill="%2300a8ff"/></svg>'); animation: wave 10s linear infinite; opacity: .3; top: -50px; animation-delay: -5s; }
+    .wave3 { background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z" fill="%2300a8ff"/></svg>'); animation: wave 6s linear infinite; opacity: .18; top: -28px; animation-delay: -2s; }
+    @keyframes wave { from { margin-left: 0; } to { margin-left: -1000px; } }
+    @keyframes swell { 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-16px);} }
+
+    /* Layout */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    section { padding: 96px 0; }
+
+    /* Header */
+    header { position: fixed; inset: 0 0 auto 0; background: rgba(0,20,40,.72); backdrop-filter: blur(10px); z-index: 1000; transition: var(--transition); border-bottom: 1px solid rgba(255,255,255,.08); }
+    header.scrolled { padding: 6px 0; box-shadow: 0 6px 24px rgba(0,0,0,.25); background: rgba(0,20,40,.9); }
+    .nav { display: flex; justify-content: space-between; align-items: center; height: 68px; }
+    .logo { font-weight: 700; font-size: 22px; color: var(--light); text-decoration: none; display: inline-flex; align-items: center; gap: 10px; }
+    .logo i { color: var(--secondary); }
+    .nav-menu { list-style: none; display: flex; gap: 28px; }
+    .nav-menu a { text-decoration: none; color: var(--light); font-weight: 500; position: relative; padding: 6px 0; transition: var(--transition); }
+    .nav-menu a:hover, .nav-menu a.active { color: var(--secondary); }
+    .nav-menu a::after { content: ""; position: absolute; left: 0; bottom: -4px; width: 0; height: 2px; background: var(--secondary); transition: var(--transition); }
+    .nav-menu a:hover::after, .nav-menu a.active::after { width: 100%; }
+    .hamburger { display: none; width: 28px; cursor: pointer; }
+    .hamburger .bar { height: 3px; background: var(--light); margin: 5px 0; transition: var(--transition); }
+
+.hero {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+  color: white;
+  padding: 0 20px;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+.hero-content .highlight {
+  color: #00c6ff;
+}
+
+.hero-content h3 {
+  font-weight: 400;
+  margin-bottom: 15px;
+  color: #ddd;
+}
+
+.tagline {
+  max-width: 700px;
+  margin: 0 auto 30px;
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.hero-buttons {
+  margin: 20px 0;
+}
+
+.btn, .btn-outline {
+  padding: 12px 25px;
+  margin: 0 10px;
+  border-radius: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: 0.3s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn {
+  background: #00c6ff;
+  color: #fff;
+}
+
+.btn:hover {
+  background: #0099cc;
+}
+
+.btn-outline {
+  border: 2px solid #00c6ff;
+  color: #00c6ff;
+}
+
+.btn-outline:hover {
+  background: #00c6ff;
+  color: #fff;
+}
+
+.social-icons {
+  margin-top: 25px;
+}
+
+.social-icons a {
+  color: white;
+  font-size: 1.6rem;
+  margin: 0 12px;
+  transition: 0.3s ease-in-out;
+}
+
+.social-icons a:hover {
+  color: #00c6ff;
+}
+
+
+    /* About */
+    .section-title { text-align: center; font-size: clamp(1.6rem, 3vw, 2.2rem); margin-bottom: 48px; position: relative; }
+    .section-title::after { content: ""; position: absolute; left: 50%; transform: translateX(-50%); bottom: -12px; width: 84px; height: 4px; background: var(--secondary); border-radius: 2px; }
+    .about { display: grid; grid-template-columns: repeat(12, 1fr); gap: 28px; align-items: center; }
+    .about .photo { grid-column: span 5; background: var(--glass); border: 1px solid rgba(255,255,255,.08); border-radius: var(--radius); overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,.25); }
+    .about .content { grid-column: span 7; }
+    .about .content h3 { font-size: 1.35rem; margin-bottom: 12px; }
+    .about .content p { color: #e6f2ff; margin: 10px 0; line-height: 1.8; }
+    .skills { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+    .chip { padding: 7px 14px; border-radius: 999px; border: 1px solid rgba(0,168,255,.35); background: rgba(0,168,255,.14); font-size: .9rem; }
+
+    /* Projects */
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; }
+    .card { background: var(--glass); border: 1px solid rgba(255,255,255,.08); border-radius: 14px; overflow: hidden; transition: var(--transition); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,.18); }
+    .card:hover { transform: translateY(-8px); box-shadow: 0 18px 38px rgba(0,168,255,.2); }
+    .card .thumb { height: 190px; overflow: hidden; }
+    .card .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+    .card:hover .thumb img { transform: scale(1.08); }
+    .card .body { padding: 18px; }
+    .card .body h3 { font-size: 1.12rem; margin-bottom: 8px; }
+    .card .body p { color: #d7ecff; margin-bottom: 12px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+    .tag { font-size: .8rem; padding: 5px 10px; border-radius: 999px; background: rgba(0,168,255,.18); }
+    .link { color: var(--secondary); text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+    .link:hover { color: var(--light); }
+
+    /* Contact */
+    .contact-wrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 26px; align-items: start; }
+    .contact-card { background: var(--glass); border: 1px solid rgba(255,255,255,.08); border-radius: 14px; padding: 20px; display: flex; gap: 14px; align-items: center; transition: var(--transition); }
+    .contact-card:hover { transform: translateY(-4px); }
+    .contact-icon { width: 48px; height: 48px; border-radius: 50%; background: rgba(0,168,255,.18); display: grid; place-items: center; flex-shrink: 0; }
+    .contact-card h4 { margin-bottom: 4px; font-size: 1.02rem; }
+    .contact-card p { color: #d7ecff; font-size: .95rem; }
+    .contact-actions { margin-top: 10px; display: flex; gap: 10px; }
+    .cta { display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,.14); text-decoration: none; font-weight: 600; color: #fff; transition: var(--transition); }
+    .cta:hover { transform: translateY(-2px); border-color: rgba(0,168,255,.6); box-shadow: 0 10px 24px rgba(0,168,255,.18); }
+
+    /* Footer */
+    footer { background: rgba(0,20,40,.9); padding: 36px 0 20px; text-align: center; border-top: 1px solid rgba(255,255,255,.08); }
+    .foot-links { display: flex; justify-content: center; gap: 16px; margin: 12px 0 18px; }
+    .social { width: 40px; height: 40px; border-radius: 50%; display: inline-grid; place-items: center; background: rgba(255,255,255,.08); color: #fff; text-decoration: none; transition: var(--transition); }
+    .social:hover { background: var(--secondary); transform: translateY(-4px); }
+    .copyright { color: #cfeaff; font-size: .92rem; opacity: .86; }
+
+    /* Responsive */
+    @media (max-width: 992px){ .hero-inner{ grid-template-columns: 1fr; text-align:center } .buttons{ justify-content:center } .hero-art{ max-width: 520px; margin: 0 auto; opacity:.85 } }
+    @media (max-width: 768px){ .hamburger{ display:block } .nav-menu{ position: fixed; inset: 70px 0 auto 0; transform: translateY(-120%); background: rgba(0,20,40,.96); backdrop-filter: blur(10px); padding: 18px 22px 28px; flex-direction: column; gap: 14px; transition: var(--transition); }
+      .nav-menu.open{ transform: translateY(0); }
+      .hamburger.active .bar:nth-child(2){ opacity: 0; }
+      .hamburger.active .bar:nth-child(1){ transform: translateY(8px) rotate(45deg); }
+      .hamburger.active .bar:nth-child(3){ transform: translateY(-8px) rotate(-45deg); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Ocean BG -->
+  <div class="ocean" aria-hidden="true">
+    <div class="wave wave1"></div>
+    <div class="wave wave2"></div>
+    <div class="wave wave3"></div>
+  </div>
+
+  <!-- Header -->
+  <header id="top">
+    <div class="container nav">
+      <a href="#top" class="logo" aria-label="Beranda Adelina"><i class="fas fa-water"></i>Portfolio</a>
+      <nav aria-label="Navigasi utama">
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="#home" class="nav-link">Home</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#projects" class="nav-link">Projects</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="hamburger" id="hamburger" aria-label="Buka menu" aria-controls="navMenu" aria-expanded="false">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+    </div>
+  </header>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>Hi, I’m <span class="highlight">Adelina Zivanna</span> 👋</h1>
+    <h3>Web Developer & UI/UX Designer</h3>
+    <p class="tagline">
+      I create beautiful and functional websites with a focus on user experience and modern design. 
+      Let’s bring your ideas to life!
+    </p>
+
+    <div class="hero-buttons">
+      <a href="#projects" class="btn"><i class="fa-solid fa-eye"></i> View My Work</a>
+      <a href="#contact" class="btn-outline"><i class="fa-solid fa-paper-plane"></i> Contact Me</a>
+    </div>
+  </div>
+</section>
+
+
+  <!-- About -->
+  <section id="about" aria-label="Tentang Saya">
+    <div class="container">
+      <h2 class="section-title">About Me</h2>
+      <div class="about">
+        <div class="photo">
+          <img src="foto-adel.jpg" alt="Foto Adelina Zivanna" />
+        </div>
+        <div class="content">
+          <h3>A student of SMKN 10 Jakarta majoring in Software Engineering.</h3>
+          <p>I have a strong interest in design, web programming, and creative arts. I enjoy exploring new ideas to create something useful and engaging. I believe that technology and creativity can go hand in hand to deliver extraordinary solutions.</p>          <div class="skills">
+            <span class="chip">HTML</span>
+            <span class="chip">CSS</span>
+            <span class="chip">JavaScript</span>
+            <span class="chip">UI/UX Design</span>
+            <span class="chip">Responsive Design</span>
+            <span class="chip">PHP</span>
+            <span class="chip">Laravel</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" aria-label="Proyek">
+    <div class="container">
+      <h2 class="section-title">My Projects</h2>
+      <div class="projects-grid">
+<!-- Project 1 -->
+<article class="card">
+  <div class="thumb">
+    <img alt="Flower Shop" src="foto-adel.jpg" />
+  </div>
+  <div class="body">
+    <h3>Flower Shop Website</h3>
+    <p>An e-commerce website for a local flower shop with product catalog, shopping cart, and checkout system.</p>
+    <div class="tags">
+      <span class="tag">HTML</span>
+      <span class="tag">CSS</span>
+      <span class="tag">JavaScript</span>
+      <span class="tag">PHP</span>
+    </div>
+    <!-- Ganti href dengan link project kamu -->
+    <a class="link" href="https://github.com/AdelinaZivanna" target="_blank" rel="noopener">
+      <span>View Project</span>
+      <i class="fa-solid fa-arrow-right"></i>
+    </a>
+  </div>
+</article>
+
+
+        <!-- Project 2 -->
+        <article class="card">
+          <div class="thumb">
+            <img alt="Portfolio UI Kit" src="foto-adel.jpg" />
+          </div>
+          <div class="body">
+            <h3>UI Component Kit</h3>
+            <p>A reusable UI kit with buttons, forms, and card components to speed up development.</p>
+            <div class="tags">
+              <span class="tag">Design</span><span class="tag">Figma</span><span class="tag">System</span>
+            </div>
+                <a class="link" href="https://adelina-flower-shop.netlify.app" target="_blank" rel="noopener">
+                <span>View Project</span><i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </article>
+
+        <!-- Project 3 -->
+        <article class="card">
+          <div class="thumb">
+            <img alt="Laravel CRUD" src="foto-adel.jpg" />
+          </div>
+          <div class="body">
+            <h3>School CRUD App</h3>
+            <p>CRUD application for managing school data with authentication and role-based access.</p>
+            <div class="tags">
+              <span class="tag">Laravel</span><span class="tag">MySQL</span><span class="tag">Blade</span>
+            </div>
+        <a class="link" href="https://adelina-flower-shop.netlify.app" target="_blank" rel="noopener"><span>View Project</span><i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact (IG, WA, GitHub) -->
+  <section id="contact" aria-label="Kontak">
+    <div class="container">
+      <h2 class="section-title">Contact</h2>
+      <div class="contact-wrap">
+        <!-- Instagram -->
+        <div class="contact-card">
+          <div class="contact-icon"><i class="fa-brands fa-instagram"></i></div>
+          <div>
+            <h4>Instagram</h4>
+            <p>@adellazivannea</p>
+            <div class="contact-actions">
+              <a class="cta" href="https://instagram.com/adellazivannea" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Buka IG</a>
+              <a class="cta" href="https://instagram.com/adellazivannea" target="_blank" rel="noopener"><i class="fa-regular fa-copy"></i> Salin</a>
+            </div>
+          </div>
+        </div>
+        <!-- WhatsApp -->
+        <div class="contact-card">
+          <div class="contact-icon"><i class="fa-brands fa-whatsapp"></i></div>
+          <div>
+            <h4>WhatsApp</h4>
+            <p>+62 895-1684-8739</p>
+            <div class="contact-actions">
+              <a class="cta" href="https://wa.me/6289516848739" target="_blank" rel="noopener"><i class="fa-solid fa-comment-dots"></i> Chat WA</a>
+              <a class="cta" href="tel:+6289516848739"><i class="fa-solid fa-phone"></i> Telepon</a>
+            </div>
+          </div>
+        </div>
+        <!-- GitHub -->
+        <div class="contact-card">
+          <div class="contact-icon"><i class="fa-brands fa-github"></i></div>
+          <div>
+            <h4>GitHub</h4>
+            <p>github.com/AdelinaZivanna</p>
+            <div class="contact-actions">
+              <a class="cta" href="https://github.com/AdelinaZivanna" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Kunjungi</a>
+              <a class="cta" href="#" id="copyGit"><i class="fa-regular fa-copy"></i> Salin URL</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p class="copyright">© <span id="year"></span> Adelina Zivanna. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Shrink header on scroll + active link
+    const header = document.querySelector('header');
+    const navLinks = document.querySelectorAll('.nav-menu a');
+    const sections = [...document.querySelectorAll('section')];
+    const setActive = () => {
+      const scrollPos = window.scrollY + 120; // offset
+      sections.forEach(sec => {
+        if (scrollPos >= sec.offsetTop && scrollPos < sec.offsetTop + sec.offsetHeight) {
+          navLinks.forEach(a => a.classList.remove('active'));
+          const active = document.querySelector(`.nav-menu a[href="#${sec.id}"]`);
+          active && active.classList.add('active');
+        }
+      });
+    }
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 10);
+      setActive();
+    });
+    setActive();
+
+    // Hamburger toggle
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('navMenu');
+    const toggleMenu = () => {
+      hamburger.classList.toggle('active');
+      const open = navMenu.classList.toggle('open');
+      hamburger.setAttribute('aria-expanded', open);
+    };
+    hamburger.addEventListener('click', toggleMenu);
+    navLinks.forEach(link => link.addEventListener('click', () => {
+      if (navMenu.classList.contains('open')) toggleMenu();
+    }));
+
+    // Copy GitHub URL example
+    const copyGit = document.getElementById('copyGit');
+    if (copyGit) {
+      copyGit.addEventListener('click', (e) => {
+        e.preventDefault();
+        const url = 'https://github.com/USERNAME';
+        navigator.clipboard.writeText(url).then(() => {
+          copyGit.innerHTML = '<i class="fa-solid fa-check"></i> Disalin!';
+          setTimeout(() => copyGit.innerHTML = '<i class="fa-regular fa-copy"></i> Salin URL', 1600);
+        });
+      });
+    }
+
+    // Current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
