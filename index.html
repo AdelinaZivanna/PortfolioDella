@@ -174,8 +174,37 @@
     .cta { display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,.14); text-decoration: none; font-weight: 600; color: #fff; transition: var(--transition); }
     .cta:hover { transform: translateY(-2px); border-color: rgba(0,168,255,.6); box-shadow: 0 10px 24px rgba(0,168,255,.18); }
 
+    /* Map Section */
+    .map-section { padding: 60px 0; }
+    .map-container { 
+      background: var(--glass); 
+      border: 1px solid rgba(255,255,255,.08); 
+      border-radius: var(--radius); 
+      overflow: hidden; 
+      box-shadow: 0 10px 30px rgba(0,0,0,.18);
+      height: 400px;
+    }
+    .map-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      filter: grayscale(0.3) invert(0.9) hue-rotate(180deg) contrast(0.9);
+    }
+    .map-info {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .map-info h3 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+    .map-info p {
+      color: #d7ecff;
+      margin-bottom: 20px;
+    }
+
     /* Footer */
-    footer { background: rgba(0,20,40,.9); padding: 36px 0 20px; text-align: center; border-top: 1px solid rgba(255,255,255,.08); }
+    footer { background: rgba(0,20,40,.9); padding: 10px 0 20px; text-align: center; border-top: 1px solid rgba(255,255,255,.08); }
     .foot-links { display: flex; justify-content: center; gap: 16px; margin: 12px 0 18px; }
     .social { width: 40px; height: 40px; border-radius: 50%; display: inline-grid; place-items: center; background: rgba(255,255,255,.08); color: #fff; text-decoration: none; transition: var(--transition); }
     .social:hover { background: var(--secondary); transform: translateY(-4px); }
@@ -183,11 +212,14 @@
 
     /* Responsive */
     @media (max-width: 992px){ .hero-inner{ grid-template-columns: 1fr; text-align:center } .buttons{ justify-content:center } .hero-art{ max-width: 520px; margin: 0 auto; opacity:.85 } }
-    @media (max-width: 768px){ .hamburger{ display:block } .nav-menu{ position: fixed; inset: 70px 0 auto 0; transform: translateY(-120%); background: rgba(0,20,40,.96); backdrop-filter: blur(10px); padding: 18px 22px 28px; flex-direction: column; gap: 14px; transition: var(--transition); }
+    @media (max-width: 768px){ 
+      .hamburger{ display:block } 
+      .nav-menu{ position: fixed; inset: 70px 0 auto 0; transform: translateY(-120%); background: rgba(0,20,40,.96); backdrop-filter: blur(10px); padding: 18px 22px 28px; flex-direction: column; gap: 14px; transition: var(--transition); }
       .nav-menu.open{ transform: translateY(0); }
       .hamburger.active .bar:nth-child(2){ opacity: 0; }
       .hamburger.active .bar:nth-child(1){ transform: translateY(8px) rotate(45deg); }
       .hamburger.active .bar:nth-child(3){ transform: translateY(-8px) rotate(-45deg); }
+      .map-container { height: 300px; }
     }
   </style>
 </head>
@@ -209,6 +241,7 @@
           <li><a href="#about" class="nav-link">About</a></li>
           <li><a href="#projects" class="nav-link">Projects</a></li>
           <li><a href="#contact" class="nav-link">Contact</a></li>
+          <li><a href="#location" class="nav-link">Location</a></li>
         </ul>
       </nav>
       <div class="hamburger" id="hamburger" aria-label="Buka menu" aria-controls="navMenu" aria-expanded="false">
@@ -222,7 +255,7 @@
 <!-- Hero Section -->
 <section class="hero">
   <div class="hero-content">
-    <h1>Hi, I’m <span class="highlight">Adelina Zivanna</span> 👋</h1>
+    <h1>Hi, I’m <span class="highlight">Adelina Zivanna Dopael Pakpahan</span> 👋</h1>
     <h3>Web Developer & UI/UX Designer</h3>
     <p class="tagline">
       I create beautiful and functional websites with a focus on user experience and modern design. 
@@ -269,19 +302,18 @@
 <!-- Project 1 -->
 <article class="card">
   <div class="thumb">
-    <img alt="Flower Shop" src="foto-adel.jpg" />
+    <img alt="To-Do List App" src="todolist.png" />
   </div>
   <div class="body">
-    <h3>Flower Shop Website</h3>
-    <p>An e-commerce website for a local flower shop with product catalog, shopping cart, and checkout system.</p>
+    <h3>To-Do List App</h3>
+    <p>A simple to-do list application built with JavaScript where users can add, delete, and mark tasks as completed.</p>
     <div class="tags">
       <span class="tag">HTML</span>
       <span class="tag">CSS</span>
       <span class="tag">JavaScript</span>
-      <span class="tag">PHP</span>
     </div>
     <!-- Ganti href dengan link project kamu -->
-    <a class="link" href="https://github.com/AdelinaZivanna" target="_blank" rel="noopener">
+    <a class="link" href="project1/index.html" target="_blank" rel="noopener">
       <span>View Project</span>
       <i class="fa-solid fa-arrow-right"></i>
     </a>
@@ -289,36 +321,106 @@
 </article>
 
 
+
         <!-- Project 2 -->
         <article class="card">
           <div class="thumb">
-            <img alt="Portfolio UI Kit" src="foto-adel.jpg" />
+            <img alt="Snake Game" src="wormms.jpg" />
           </div>
           <div class="body">
-            <h3>UI Component Kit</h3>
-            <p>A reusable UI kit with buttons, forms, and card components to speed up development.</p>
+            <h3>Snake Game</h3>
+            <p>A classic snake game built using HTML, CSS, and JavaScript. Eat the food, grow longer, and avoid hitting yourself!</p>
             <div class="tags">
-              <span class="tag">Design</span><span class="tag">Figma</span><span class="tag">System</span>
+              <span class="tag">Game</span><span class="tag">JavaScript</span><span class="tag">Canvas</span>
             </div>
-                <a class="link" href="https://adelina-flower-shop.netlify.app" target="_blank" rel="noopener">
-                <span>View Project</span><i class="fa-solid fa-arrow-right"></i></a>
+            <a class="link" href="project2/index.html" target="_blank" rel="noopener">
+              <span>Play Game</span><i class="fa-solid fa-arrow-right"></i>
+            </a>
           </div>
         </article>
 
         <!-- Project 3 -->
         <article class="card">
           <div class="thumb">
-            <img alt="Laravel CRUD" src="foto-adel.jpg" />
+            <img alt="Google Drive Clone" src="googl4.png" />
           </div>
           <div class="body">
-            <h3>School CRUD App</h3>
-            <p>CRUD application for managing school data with authentication and role-based access.</p>
+            <h3>Google Drive Clone</h3>
+            <p>A web-based file storage and management system inspired by Google Drive, featuring upload, organize, and preview functionalities.</p>
             <div class="tags">
-              <span class="tag">Laravel</span><span class="tag">MySQL</span><span class="tag">Blade</span>
+              <span class="tag">HTML</span>
+              <span class="tag">CSS</span>
+              <span class="tag">JavaScript</span>
             </div>
-        <a class="link" href="https://adelina-flower-shop.netlify.app" target="_blank" rel="noopener"><span>View Project</span><i class="fa-solid fa-arrow-right"></i></a>
+            <a class="link" href="project3/index.html" target="_blank" rel="noopener">
+              <span>View Project</span><i class="fa-solid fa-arrow-right"></i>
+            </a>
           </div>
         </article>
+
+        <!-- Project 4 -->
+<article class="card">
+  <div class="thumb">
+    <img alt="ExpenseTracker" src="exxxx.png" />
+  </div>
+  <div class="body">
+    <h3>Expense-Tracker App</h3>
+    <p>A simple to-do list application built with JavaScript where users can add, delete, and mark tasks as completed.</p>
+    <div class="tags">
+      <span class="tag">HTML</span>
+      <span class="tag">CSS</span>
+      <span class="tag">JavaScript</span>
+    </div>
+    <!-- Ganti href dengan link project kamu -->
+    <a class="link" href="project4/index.html" target="_blank" rel="noopener">
+      <span>View Project</span>
+      <i class="fa-solid fa-arrow-right"></i>
+    </a>
+  </div>
+</article>
+
+<!-- Project 5 -->
+<article class="card">
+  <div class="thumb">
+    <img alt="Flappy-Bird App" src="Flappynew.jpeg" />
+  </div>
+  <div class="body">
+    <h3>Flappy-Bird App</h3>
+    <p>A fun Flappy Bird game built with JavaScript where players control a bird to fly through obstacles.</p>
+    <div class="tags">
+      <span class="tag">HTML</span>
+      <span class="tag">CSS</span>
+      <span class="tag">JavaScript</span>
+    </div>
+    <!-- Ganti href dengan link project kamu -->
+    <a class="link" href="project5/index.html" target="_blank" rel="noopener">
+      <span>View Project</span>
+      <i class="fa-solid fa-arrow-right"></i>
+    </a>
+  </div>
+</article>
+
+<!-- Project 6 -->
+<article class="card">
+  <div class="thumb">
+    <img alt="Clock App" src="jam.jpg" />
+  </div>
+  <div class="body">
+    <h3>Clock App</h3>
+    <p>A simple digital clock application that displays the current time in real-time using JavaScript.</p>
+    <div class="tags">
+      <span class="tag">HTML</span>
+      <span class="tag">CSS</span>
+      <span class="tag">JavaScript</span>
+    </div>
+    <!-- Ganti href dengan link project kamu -->
+    <a class="link" href="project6/index.html" target="_blank" rel="noopener">
+      <span>View Project</span>
+      <i class="fa-solid fa-arrow-right"></i>
+    </a>
+  </div>
+</article>
+
       </div>
     </div>
   </section>
@@ -364,6 +466,28 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Map Section -->
+  <section id="location" class="map-section" aria-label="Lokasi Sekolah">
+    <div class="container">
+      <h2 class="section-title">My School Location</h2>
+      <div class="map-container">
+        <iframe 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.521260322283!2d106.8672327!3d-6.2558317!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f301ea1c2901%3A0xfc9931c7b0225846!2sSMK%20Negeri%2010%20Jakarta!5e0!3m2!1sid!2sid!4v1724060000000!5m2!1sid!2sid" 
+          allowfullscreen="" 
+          loading="lazy" 
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+      <div class="map-info">
+        <h3>SMK Negeri 10 Jakarta</h3>
+        <p>Jl. Mayjen Sutoyo No.1, Cawang, Kec. Kramat jati, Kota Jakarta Timur, Daerah Khusus Ibukota Jakarta 13630</p>
+        <a href="https://maps.app.goo.gl/CnAN1uQixP9BFHp6A" target="_blank" class="btn">
+          <i class="fas fa-directions"></i> Buka di Google Maps
+        </a>
       </div>
     </div>
   </section>

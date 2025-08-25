@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Expense Tracker</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --secondary: #3f37c9;
+      --success: #4cc9f0;
+      --danger: #f72585;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .tracker-container {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 30px;
+      background-color: #fff;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    }
+    
+    .app-header {
+      text-align: center;
+      margin-bottom: 30px;
+      position: relative;
+    }
+    
+    .app-title {
+      color: var(--primary);
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+    
+    .app-subtitle {
+      color: var(--gray);
+      font-size: 1rem;
+    }
+    
+    .form-container {
+      background: linear-gradient(to right, #f8f9fa, #e9ecef);
+      padding: 25px;
+      border-radius: 15px;
+      margin-bottom: 30px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .expense-list {
+      max-height: 400px;
+      overflow-y: auto;
+      padding-right: 10px;
+    }
+    
+    .expense-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      margin-bottom: 12px;
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
+      border-left: 4px solid var(--primary);
+    }
+    
+    .expense-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .expense-details {
+      flex: 1;
+    }
+    
+    .expense-name {
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 5px;
+    }
+    
+    .expense-date {
+      font-size: 0.8rem;
+      color: var(--gray);
+    }
+    
+    .expense-amount {
+      font-weight: 700;
+      color: var(--danger);
+      font-size: 1.1rem;
+    }
+    
+    .delete-btn {
+      background: none;
+      border: none;
+      color: var(--gray);
+      cursor: pointer;
+      font-size: 1.2rem;
+      margin-left: 15px;
+      transition: color 0.2s;
+    }
+    
+    .delete-btn:hover {
+      color: var(--danger);
+    }
+    
+    .total-container {
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      color: white;
+      padding: 20px;
+      border-radius: 15px;
+      margin-top: 30px;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+    }
+    
+    .total-label {
+      font-size: 1.2rem;
+      margin-bottom: 5px;
+    }
+    
+    .total-amount {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 40px 0;
+      color: var(--gray);
+    }
+    
+    .empty-state i {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      color: #dee2e6;
+    }
+    
+    .category-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      margin-top: 5px;
+      background-color: #e9ecef;
+    }
+    
+    /* Custom scrollbar */
+    .expense-list::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    .expense-list::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+    
+    .expense-list::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 10px;
+    }
+    
+    /* Animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.5s ease forwards;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 576px) {
+      .tracker-container {
+        padding: 20px;
+      }
+      
+      .form-container {
+        padding: 20px;
+      }
+      
+      .expense-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .expense-actions {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin-top: 10px;
+      }
+      
+      .delete-btn {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const ExpenseItem = ({ name, amount, date, category, onDelete }) => (
+      <div className="expense-item fade-in">
+        <div className="expense-details">
+          <div className="expense-name">{name}</div>
+          <div className="expense-date">{date}</div>
+          {category && <span className="category-badge">{category}</span>}
+        </div>
+        <div className="expense-actions">
+          <span className="expense-amount">Rp {amount.toLocaleString('id-ID')}</span>
+          <button className="delete-btn" onClick={onDelete}>
+            <i className="fas fa-trash-alt"></i>
+          </button>
+        </div>
+      </div>
+    );
+
+    const App = () => {
+      const [expenses, setExpenses] = useState([]);
+      const [name, setName] = useState('');
+      const [amount, setAmount] = useState('');
+      const [category, setCategory] = useState('Makanan');
+
+      // Load data from localStorage on initial render
+      useEffect(() => {
+        const savedExpenses = localStorage.getItem('expenses');
+        if (savedExpenses) {
+          setExpenses(JSON.parse(savedExpenses));
+        }
+      }, []);
+
+      // Save to localStorage whenever expenses change
+      useEffect(() => {
+        localStorage.setItem('expenses', JSON.stringify(expenses));
+      }, [expenses]);
+
+      const addExpense = () => {
+        if (name && amount) {
+          const newExpense = {
+            name,
+            amount: parseFloat(amount),
+            date: new Date().toLocaleDateString('id-ID', { 
+              day: 'numeric', 
+              month: 'short', 
+              year: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit'
+            }),
+            category
+          };
+          
+          setExpenses([newExpense, ...expenses]);
+          setName('');
+          setAmount('');
+        }
+      };
+
+      const deleteExpense = (index) => {
+        const newExpenses = [...expenses];
+        newExpenses.splice(index, 1);
+        setExpenses(newExpenses);
+      };
+
+      const clearAllExpenses = () => {
+        if (window.confirm('Yakin ingin menghapus semua data pengeluaran?')) {
+          setExpenses([]);
+        }
+      };
+
+      const total = expenses.reduce((sum, exp) => sum + exp.amount, 0);
+
+      const categories = [
+        'Makanan', 'Transportasi', 'Belanja', 'Hiburan', 
+        'Kesehatan', 'Pendidikan', 'Tagihan', 'Lainnya'
+      ];
+
+      return (
+        <div className="tracker-container">
+          <div className="app-header">
+            <h1 className="app-title"><i className="fas fa-wallet me-2"></i>Expense Tracker</h1>
+            <p className="app-subtitle">Kelola pengeluaranmu dengan mudah</p>
+          </div>
+
+          <div className="form-container">
+            <div className="row">
+              <div className="col-md-5 mb-3">
+                <label className="form-label">Nama Pengeluaran</label>
+                <input 
+                  type="text" 
+                  className="form-control" 
+                  value={name} 
+                  onChange={e => setName(e.target.value)}
+                  placeholder="Contoh: Beli makan siang"
+                />
+              </div>
+              
+              <div className="col-md-3 mb-3">
+                <label className="form-label">Jumlah (Rp)</label>
+                <input 
+                  type="number" 
+                  className="form-control" 
+                  value={amount} 
+                  onChange={e => setAmount(e.target.value)}
+                  placeholder="0"
+                />
+              </div>
+              
+              <div className="col-md-3 mb-3">
+                <label className="form-label">Kategori</label>
+                <select 
+                  className="form-select" 
+                  value={category} 
+                  onChange={e => setCategory(e.target.value)}
+                >
+                  {categories.map(cat => (
+                    <option key={cat} value={cat}>{cat}</option>
+                  ))}
+                </select>
+              </div>
+              
+              <div className="col-md-1 mb-3 d-flex align-items-end">
+                <button className="btn btn-success w-100" onClick={addExpense}>
+                  <i className="fas fa-plus"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="d-flex justify-content-between align-items-center mb-3">
+            <h5 className="text-secondary mb-0">
+              <i className="fas fa-list me-2"></i>Daftar Pengeluaran
+            </h5>
+            {expenses.length > 0 && (
+              <button className="btn btn-outline-danger btn-sm" onClick={clearAllExpenses}>
+                <i className="fas fa-trash me-1"></i>Hapus Semua
+              </button>
+            )}
+          </div>
+          
+          <div className="expense-list">
+            {expenses.length === 0 ? (
+              <div className="empty-state">
+                <i className="fas fa-receipt"></i>
+                <p>Belum ada data pengeluaran</p>
+              </div>
+            ) : (
+              expenses.map((item, idx) => (
+                <ExpenseItem 
+                  key={idx} 
+                  {...item} 
+                  onDelete={() => deleteExpense(idx)} 
+                />
+              ))
+            )}
+          </div>
+
+          <div className="total-container">
+            <div className="total-label">Total Pengeluaran</div>
+            <div className="total-amount">Rp {total.toLocaleString('id-ID')}</div>
+          </div>
+        </div>
+      );
+    };
+
+    ReactDOM.render(<App />, document.getElementById('app'));
+  </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Snake Game 🐍</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Snake Game 🐍</h1>
+
+  <!-- PILIH LEVEL -->
+  <div id="levelSelect">
+    <p>Pilih Level:</p>
+    <button onclick="startGame(200)">🐢 Easy</button>
+    <button onclick="startGame(150)">⚡ Normal</button>
+    <button onclick="startGame(100)">🔥 Hard</button>
+  </div>
+
+  <!-- CANVAS -->
+  <canvas id="gameCanvas" width="400" height="400"></canvas>
+  <p id="score">Score: 0 | High: 0</p>
+  <p><small>Tekan ⬆️⬇️⬅️➡️ untuk gerak, Spasi untuk Pause/Resume</small></p>
+
+  <!-- GAME OVER POPUP -->
+  <div id="gameOverPopup" style="display: none;">
+    <div class="popup">
+      <h2>💀 Kamu kalah!</h2>
+      <p id="finalScore">Skormu: 0</p>
+      <h3>🏆 Leaderboard</h3>
+      <ul id="leaderboard"></ul>
+      <button onclick="tryAgain()">🔁 Try Again</button>
+      <button onclick="cancelGame()">❌ Cancel</button>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
