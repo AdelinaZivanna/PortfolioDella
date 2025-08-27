@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Google Drive</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    :root {
+      --drive-blue: #1a73e8;
+      --drive-light-blue: #e8f0fe;
+      --drive-gray: #f1f3f4;
+      --drive-dark-gray: #5f6368;
+      --drive-border: #dadce0;
+    }
+    
+    body {
+      background: #f8f9fa;
+      font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      color: #202124;
+    }
+    
+    .app-header {
+      background: white;
+      border-bottom: 1px solid var(--drive-border);
+      padding: 8px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+    
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .drive-logo {
+      width: 40px;
+      height: 40px;
+    }
+    
+    .search-container {
+      background: var(--drive-gray);
+      border-radius: 8px;
+      padding: 0 16px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    
+    .search-container:focus-within {
+      background: white;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    }
+    
+    .search-container input {
+      background: transparent;
+      border: none;
+      box-shadow: none !important;
+    }
+    
+    .sidebar {
+      background-color: #ffffff;
+      border-right: 1px solid var(--drive-border);
+      padding: 24px 16px;
+      min-height: calc(100vh - 57px);
+      position: sticky;
+      top: 57px;
+    }
+    
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      padding: 10px 16px;
+      margin-bottom: 4px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: var(--drive-dark-gray);
+      transition: background-color 0.1s ease;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    
+    .sidebar-item:hover,
+    .sidebar-item.active {
+      background-color: var(--drive-light-blue);
+      color: var(--drive-blue);
+    }
+    
+    .sidebar-item i {
+      margin-right: 12px;
+      font-size: 18px;
+      width: 24px;
+      text-align: center;
+    }
+    
+    .new-btn {
+      background-color: var(--drive-blue);
+      color: white;
+      border: none;
+      border-radius: 24px;
+      padding: 12px 24px;
+      margin: 16px 0;
+      font-weight: 500;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+      transition: all 0.2s ease;
+    }
+    
+    .new-btn:hover {
+      background-color: #1565d8;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    
+    .file-card {
+      background: white;
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+    }
+    
+    .file-card:hover {
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+      border-color: var(--drive-border);
+    }
+    
+    .file-icon {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+      margin-right: 16px;
+    }
+    
+    .file-actions {
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    
+    .file-card:hover .file-actions {
+      opacity: 1;
+    }
+    
+    .btn-icon {
+      width: 32px;
+      height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+    
+    .content-header {
+      padding: 16px 24px;
+      background: white;
+      border-bottom: 1px solid var(--drive-border);
+      margin: 0 -24px 24px;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--drive-dark-gray);
+    }
+    
+    .empty-state i {
+      font-size: 64px;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+    
+    @media (max-width: 768px) {
+      .sidebar {
+        min-height: auto;
+        position: static;
+        border-right: none;
+        border-bottom: 1px solid var(--drive-border);
+      }
+      
+      .file-actions {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="text/babel">
+    const { useState } = React;
+
+    function App() {
+      const [files, setFiles] = useState([
+        { id: 1, name: "Laporan Keuangan.pdf", date: "12 Jun 2023", favorite: true, type: "pdf" },
+        { id: 2, name: "Proposal Projek.docx", date: "5 Jun 2023", favorite: false, type: "doc" },
+        { id: 3, name: "Presentasi.pptx", date: "1 Jun 2023", favorite: true, type: "ppt" },
+        { id: 4, name: "Gambar Desain.jpg", date: "28 Mei 2023", favorite: false, type: "image" }
+      ]);
+      const [trash, setTrash] = useState([]);
+      const [editingFile, setEditingFile] = useState(null);
+      const [newName, setNewName] = useState("");
+      const [searchTerm, setSearchTerm] = useState("");
+      const [activeTab, setActiveTab] = useState("mydrive");
+
+      const getFileIcon = (type) => {
+        switch(type) {
+          case "pdf": return "https://cdn-icons-png.flaticon.com/512/337/337946.png";
+          case "doc": return "https://cdn-icons-png.flaticon.com/512/337/337932.png";
+          case "ppt": return "https://cdn-icons-png.flaticon.com/512/337/337958.png";
+          case "image": return "https://cdn-icons-png.flaticon.com/512/337/337952.png";
+          default: return "https://cdn-icons-png.flaticon.com/512/337/337943.png";
+        }
+      };
+
+      const handleFileUpload = (e) => {
+        const uploadedFile = e.target.files[0];
+        if (uploadedFile) {
+          const extension = uploadedFile.name.split('.').pop().toLowerCase();
+          let fileType = "file";
+          
+          if (["pdf"].includes(extension)) fileType = "pdf";
+          else if (["doc", "docx"].includes(extension)) fileType = "doc";
+          else if (["ppt", "pptx"].includes(extension)) fileType = "ppt";
+          else if (["jpg", "jpeg", "png", "gif"].includes(extension)) fileType = "image";
+          
+          const newFile = {
+            id: Date.now(),
+            name: uploadedFile.name,
+            date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }),
+            favorite: false,
+            type: fileType
+          };
+          setFiles([newFile, ...files]);
+        }
+      };
+
+      const deleteFile = (id) => {
+        const deleted = files.find(f => f.id === id);
+        if (deleted) {
+          setTrash([deleted, ...trash]);
+          setFiles(files.filter(f => f.id !== id));
+        }
+      };
+
+      const restoreFile = (id) => {
+        const fileToRestore = trash.find(f => f.id === id);
+        if (fileToRestore) {
+          setFiles([fileToRestore, ...files]);
+          setTrash(trash.filter(f => f.id !== id));
+        }
+      };
+
+      const permanentlyDeleteFile = (id) => {
+        setTrash(trash.filter(f => f.id !== id));
+      };
+
+      const toggleFavorite = (id) => {
+        setFiles(files.map(file =>
+          file.id === id ? { ...file, favorite: !file.favorite } : file
+        ));
+      };
+
+      const openEditModal = (file) => {
+        setEditingFile(file);
+        setNewName(file.name);
+        new bootstrap.Modal(document.getElementById('editModal')).show();
+      };
+
+      const saveEditName = () => {
+        setFiles(files.map(file =>
+          file.id === editingFile.id ? { ...file, name: newName } : file
+        ));
+        bootstrap.Modal.getInstance(document.getElementById('editModal')).hide();
+      };
+
+      const filteredFiles = files.filter(file =>
+        file.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+
+      const fileList = (list, isTrash = false) => (
+        list.length === 0 ? (
+          <div className="empty-state">
+            <i className={isTrash ? "fas fa-trash-alt" : "fas fa-folder-open"}></i>
+            <h5>{isTrash ? "Sampah kosong" : "Tidak ada file"}</h5>
+            <p className="text-muted">{isTrash ? "File yang dihapus akan muncul di sini" : "Unggah file atau folder baru untuk memulai"}</p>
+          </div>
+        ) : (
+          <div className="row">
+            {list.map(file => (
+              <div key={file.id} className="col-12 mb-3">
+                <div className="file-card d-flex justify-content-between align-items-center">
+                  <div className="d-flex align-items-center">
+                    <img src={getFileIcon(file.type)} className="file-icon" />
+                    <div>
+                      <div className="fw-medium">{file.name}</div>
+                      <small className="text-muted">{file.date}</small>
+                    </div>
+                  </div>
+                  <div className="file-actions d-flex gap-2">
+                    {!isTrash && (
+                      <>
+                        <button className="btn btn-sm btn-outline-warning btn-icon" onClick={() => toggleFavorite(file.id)} title={file.favorite ? "Hapus dari favorit" : "Tambahkan ke favorit"}>
+                          <i className={file.favorite ? "fas fa-star" : "far fa-star"}></i>
+                        </button>
+                        <button className="btn btn-sm btn-outline-primary btn-icon" onClick={() => openEditModal(file)} title="Ubah nama">
+                          <i className="fas fa-edit"></i>
+                        </button>
+                        <button className="btn btn-sm btn-outline-danger btn-icon" onClick={() => deleteFile(file.id)} title="Hapus">
+                          <i className="fas fa-trash-alt"></i>
+                        </button>
+                      </>
+                    )}
+                    {isTrash && (
+                      <>
+                        <button className="btn btn-sm btn-outline-success" onClick={() => restoreFile(file.id)}>
+                          <i className="fas fa-undo me-1"></i> Pulihkan
+                        </button>
+                        <button className="btn btn-sm btn-outline-danger" onClick={() => permanentlyDeleteFile(file.id)}>
+                          <i className="fas fa-times me-1"></i> Hapus Permanen
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )
+      );
+
+      return (
+        <>
+          {/* Header */}
+          <header className="app-header d-flex justify-content-between align-items-center">
+            <div className="logo-container">
+              <img src="https://www.gstatic.com/images/branding/product/2x/drive_2020q4_48dp.png" className="drive-logo" />
+              <span className="fs-5 fw-bold text-dark d-none d-md-block">Drive</span>
+            </div>
+            
+            {activeTab === "mydrive" && (
+              <div className="search-container d-flex align-items-center flex-grow-1 mx-4">
+                <i className="fas fa-search text-muted me-2"></i>
+                <input
+                  type="text"
+                  className="form-control border-0 shadow-none bg-transparent"
+                  placeholder="Cari di Drive"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+            )}
+            
+            <div className="d-flex align-items-center">
+              <div className="dropdown">
+                <button className="btn btn-icon" type="button" data-bs-toggle="dropdown">
+                  <i className="fas fa-cog text-dark"></i>
+                </button>
+                <ul className="dropdown-menu dropdown-menu-end">
+                  <li><a className="dropdown-item" href="#">Pengaturan</a></li>
+                  <li><a className="dropdown-item" href="#">Bantuan & umpan balik</a></li>
+                </ul>
+              </div>
+              <button className="btn btn-icon ms-2">
+                <i className="fas fa-user-circle fs-4 text-dark"></i>
+              </button>
+            </div>
+          </header>
+
+          <div className="container-fluid">
+            <div className="row">
+              {/* Sidebar */}
+              <div className="col-12 col-md-3 col-lg-2 sidebar">
+                <button className="new-btn w-100 d-flex align-items-center justify-content-center" data-bs-toggle="dropdown">
+                  <i className="fas fa-plus me-2"></i> Baru
+                </button>
+                <ul className="dropdown-menu w-100">
+                  <li>
+                    <label className="dropdown-item" style={{ cursor: 'pointer' }}>
+                      <i className="fas fa-folder me-2"></i> Folder
+                    </label>
+                  </li>
+                  <li>
+                    <label className="dropdown-item" style={{ cursor: 'pointer' }}>
+                      <i className="fas fa-upload me-2"></i> Upload File
+                      <input type="file" hidden onChange={handleFileUpload} />
+                    </label>
+                  </li>
+                </ul>
+
+                <a href="#" className={`sidebar-item ${activeTab === "mydrive" ? "active" : ""}`} onClick={() => setActiveTab("mydrive")}>
+                  <i className="fas fa-home"></i> Drive Saya
+                </a>
+                <a href="#" className={`sidebar-item ${activeTab === "computers" ? "active" : ""}`}>
+                  <i className="fas fa-laptop"></i> Komputer
+                </a>
+                <a href="#" className={`sidebar-item ${activeTab === "shared" ? "active" : ""}`}>
+                  <i className="fas fa-users"></i> Dibagikan
+                </a>
+                <a href="#" className={`sidebar-item ${activeTab === "recent" ? "active" : ""}`}>
+                  <i className="fas fa-clock"></i> Terbaru
+                </a>
+                <a href="#" className={`sidebar-item ${activeTab === "starred" ? "active" : ""}`}>
+                  <i className="fas fa-star"></i> Berbintang
+                </a>
+                <a href="#" className={`sidebar-item ${activeTab === "trash" ? "active" : ""}`} onClick={() => setActiveTab("trash")}>
+                  <i className="fas fa-trash-alt"></i> Sampah
+                </a>
+                
+                <div className="mt-4 pt-3 border-top">
+                  <div className="sidebar-item">
+                    <i className="fas fa-database"></i> Penyimpanan
+                  </div>
+                  <div className="px-4 mt-2">
+                    <div className="progress" style={{height: "4px"}}>
+                      <div className="progress-bar" style={{width: "65%"}}></div>
+                    </div>
+                    <small className="text-muted">6.5 GB dari 15 GB digunakan</small>
+                  </div>
+                </div>
+              </div>
+
+              {/* Main Content */}
+              <div className="col-12 col-md-9 col-lg-10 p-4">
+                <div className="content-header">
+                  <h4 className="mb-0 fw-medium">{activeTab === "mydrive" ? "Drive Saya" : "Sampah"}</h4>
+                </div>
+
+                {activeTab === "mydrive" ? fileList(filteredFiles) : fileList(trash, true)}
+
+                {/* Modal Edit */}
+                <div className="modal fade" id="editModal" tabIndex="-1">
+                  <div className="modal-dialog">
+                    <div className="modal-content">
+                      <div className="modal-header">
+                        <h5 className="modal-title">Ubah Nama</h5>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal"></button>
+                      </div>
+                      <div className="modal-body">
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={newName}
+                          onChange={(e) => setNewName(e.target.value)}
+                        />
+                      </div>
+                      <div className="modal-footer">
+                        <button className="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button className="btn btn-primary" onClick={saveEditName}>Simpan</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("app"));
+    root.render(<App />);
+  </script>
+</body>
+</html>

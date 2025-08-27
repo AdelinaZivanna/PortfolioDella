@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Adelina Zivanna | Portfolio </title>
   <meta name="description" content="Portfolio Adelina Zivanna – Web Developer & UI/UX Designer. Karya, skill, dan kontak (Instagram, WhatsApp, GitHub)." />
+
+  <!-- Menghubungkan font Poppins dari Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -244,6 +246,7 @@
           <li><a href="#location" class="nav-link">Location</a></li>
         </ul>
       </nav>
+       <!-- Menu hamburger untuk mobile -->
       <div class="hamburger" id="hamburger" aria-label="Buka menu" aria-controls="navMenu" aria-expanded="false">
         <div class="bar"></div>
         <div class="bar"></div>
@@ -514,13 +517,14 @@
         }
       });
     }
+    // Efek scroll pada header
     window.addEventListener('scroll', () => {
       header.classList.toggle('scrolled', window.scrollY > 10);
       setActive();
     });
     setActive();
 
-    // Hamburger toggle
+    // Fungsi menu hamburger
     const hamburger = document.getElementById('hamburger');
     const navMenu = document.getElementById('navMenu');
     const toggleMenu = () => {
@@ -533,7 +537,7 @@
       if (navMenu.classList.contains('open')) toggleMenu();
     }));
 
-    // Copy GitHub URL example
+   // Copy URL GitHub
     const copyGit = document.getElementById('copyGit');
     if (copyGit) {
       copyGit.addEventListener('click', (e) => {
@@ -546,8 +550,8 @@
       });
     }
 
-    // Current year
-    document.getElementById('year').textContent = new Date().getFullYear();
+// Tahun copyright dinamis 
+document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
